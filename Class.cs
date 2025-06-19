@@ -36,6 +36,7 @@ namespace Class
             else
             {
                 var newHealth = Health - damage + Armor;
+                damage = 5f;
                 if(newHealth <= 0f)
                 {
                     Console.WriteLine("Мертв");
