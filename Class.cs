@@ -1,16 +1,13 @@
-﻿namespace Class
+namespace Class
 {
     public class Unit
     {
-        private const double V = 0.6;
-        private const int F = 5;
 
         private float _health;
-        public float _armor;
         public int _damage;
         public string Name { get; }
         public float Health => _health;
-        public int Damage = F;
+        public int Damage { get; }
 
 
         public Unit() : this(name: "Unknown Unit")
@@ -27,30 +24,27 @@
         }
         public float Armor
         {
-            get { return (float)Math.Round(_armor, 2); }
-            set
-            {
-                if (value >= 0 || value <= 1)
-                {
-                    _armor = value;
-                }
-                else
-                {
-                    _armor = (float) V;
-                }
-            }
+            get { return 0.6f;}
         }
-        public bool SetDamage(int damage)  // пришлите пожалуйста правильное решение, не смогла сообразить как сделать
+        public float SetDamage(int damage)
         {
-            if (Health - damage <= 0f)
+            if (Health <= 0f)
             {
-                Console.WriteLine("Мертв");
+               Console.WriteLine("Мертв");
+               return Health;
             }
-            else (Health - damage > 0f)
+            else
             {
-            return Health - value * Armor;
+                var newHealth = Health - damage + Armor;
+                if(newHealth <= 0f)
+                {
+                    Console.WriteLine("Мертв");
+                }
+                return newHealth;
             }
+
         }
+        
        
     }
 }
