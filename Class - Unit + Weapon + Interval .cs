@@ -1,23 +1,29 @@
+using Class;
+
 namespace Class
 {
     public class Unit
     {
 
         private float _health;
-        public int _damage;
         public string Name { get; }
         public float Health => _health;
-        public int Damage { get; }
+        public Interval DamageUnit { get; set; }
 
 
         public Unit() : this(name: "Unknown Unit")
         {
         }
-           public Unit(string name)
-            {
+        public Unit(string name)
+        {
             Name = name;
-            Armor = 0.6f;
-            }
+            _health = 100f;
+            DamageUnit = new Interval(10);
+        }
+        public Unit(string name, int damageMax) : this(name)
+        {
+            DamageUnit = new Interval(0, damageMax);
+        }
 
         public float RealHealth()
         {
@@ -28,8 +34,8 @@ namespace Class
         {
             if (Health <= 0f)
             {
-               Console.WriteLine("Мертв");
-               return false;
+                Console.WriteLine("Мертв");
+                return false;
             }
             else
             {
@@ -38,12 +44,13 @@ namespace Class
                 {
                     return false;
                 }
+                _health = newHealth;
                 return true;
             }
 
         }
-        
-       
+
+
     }
 }
 
@@ -57,53 +64,27 @@ namespace Class
     public class Weapon
     {
         public string Name { get; }
-        private int MinDamage { get; set; }
-        private int MaxDamage { get; set; }
-        public float Durability { get; } // Durability в задании указано свойство, но дальше оно никак не используется. Лишняя строка в задаче???
+        public Interval DamageRange { get; set; }
 
 
-        public Weapon( string name = "Weapon")
+        public Weapon(string name = "Weapon")
         {
             Name = name;
+            DamageRange = new Interval(1, 10);
         }
         public Weapon(int minDamag, int maxDamag, string name) : this(name)
         {
-            MinDamage = minDamag;
-            MaxDamage = maxDamag;
-            Name = name; 
+            DamageRange = new Interval(minDamag, maxDamag);
         }
-            public Weapon SetDamageParams(int minDamag, int maxDamag) // ошибка не все пути к коду возвращают значение, не понимаю почему так, распишите пожалуйста подробнее
-        {
-            if (minDamag > maxDamag)
-            {
-                MaxDamage = minDamag;
-                MinDamage = maxDamag;
-                Console.WriteLine("Введены некорректные данные урона оружия Weapon");
+        public double GetDamage()
 
-            }
-            if (minDamag > 1) // изменила условие, тз оно не противоречит, но мне так более понятно 
-            {
-                {
-                    MinDamage = minDamag;
-                }
-                    minDamag = (int)1f;
-                    Console.WriteLine("Введены дефолтные значения минимального урона");
-            }
-            if (maxDamag <= 1)
-            { 
-                maxDamag = 10;
-                Console.WriteLine("Введены дефолтные значения максимального урона");
-            }
-            MaxDamage = maxDamag;
-        }
-        public Weapon GetDamage(int realdamag) // ошибка не все пути к коду возвращают значение, не понимаю почему так, распишите пожалуйста подробнее
         {
-           realdamag = (MinDamage + MaxDamage) / 2;
+            return DamageRange.Get;
         }
 
 
     }
-    
+
 }
 
 
@@ -114,54 +95,53 @@ namespace Class
 
 using Class;
 
-    struct Interval // зачем эта структура, какая ее функция в целом в данном коде? почему нельзя без нее?
-    {
-        private double min;
-        private double max;
-        private Random get;
+    struct Interval
 
-        public double Min => min;
-        public double Max => max;
-        public double Get => get.NextDouble() * (max - min) + min;
-        public Interval(int minValue, int maxValue)
+    private double min;
+    private double max;
+    private Random get = new Random();
+    public Interval(int minValue, int maxValue)
+    {
+    if (minValue < 0)
         {
-            if (minValue < 0)
-            {
-                Console.WriteLine($"Некорректное значение minValue ({minValue}). Заменено на 0.");
-                minValue = 0;
-            }
-            if (maxValue < 0)
-            {
-                Console.WriteLine($"Некорректное значение maxValue ({maxValue}). Заменено на 0.");
-                maxValue = 0;
-            }
-
-            // Если minValue больше maxValue, меняем местами и выводим сообщение
-            if (minValue > maxValue)
-            {
-                Console.WriteLine($"Некорректные значения: minValue ({minValue}) больше maxValue ({maxValue}). Меняем местами.");
-                int temp = minValue;
-                minValue = maxValue;
-                maxValue = temp;
-            }
-
-            // Если оба числа равны, увеличиваем max на 10 и выводим сообщение
-            if (minValue == maxValue)
-            {
-                Console.WriteLine($"Значения равны ({minValue}). Увеличиваем максимум на 10.");
-                maxValue += 10;
-            }
-
-            // Установка границ интервала
-            this.min = minValue;
-            this.max = maxValue;
+            Console.WriteLine($"Некорректное значение minValue ({minValue}). Заменено на 0.");
+            minValue = 0;
         }
-    }
+        if (maxValue < 0)
+        {
+            Console.WriteLine($"Некорректное значение maxValue ({maxValue}). Заменено на 0.");
+            maxValue = 0;
+        }
 
-    struct Room
-    {
+        // Если minValue больше maxValue, меняем местами и выводим сообщение
+        if (minValue > maxValue)
+        {
+            Console.WriteLine($"Некорректные значения: minValue ({minValue}) больше maxValue ({maxValue}). Меняем местами.");
+            int temp = minValue;
+            minValue = maxValue;
+            maxValue = temp;
+        }
+
+        // Если оба числа равны, увеличиваем max на 10 и выводим сообщение
+        if (minValue == maxValue)
+        {
+            Console.WriteLine($"Значения равны ({minValue}). Увеличиваем максимум на 10.");
+            maxValue += 10;
+        }
+
+        // Установка границ интервала
+        this.min = minValue;
+        this.max = maxValue;
+    }
+        public Interval(int maxValue) : this(0, maxValue)
+        {
+        }
+}
+
+struct Room
+{
     public Unit Unit { get; }
-    public Weapon Weapon { get;}
+    public Weapon Weapon { get; }
 
     public Room(Unit unit, Weapon weapon)
     {
@@ -170,8 +150,8 @@ using Class;
     }
 
 
-class Dungeon
-{
+    class Dungeon
+    {
         private Room[] rooms;
         public Dungeon()
         {
@@ -190,7 +170,7 @@ class Dungeon
             {
                 Console.WriteLine($"Room {i + 1}:");
                 Console.WriteLine($"Unit: {rooms[i].Unit.Name}, Health: {rooms[i].Unit.Health}");
-                Console.WriteLine($"Weapon: {rooms[i].Weapon.Name}, Damage: {rooms[i].Weapon.Damage}");
+                Console.WriteLine($"Weapon: {rooms[i].Weapon.Name}, Damage: {rooms[i].Weapon.GetDamage}");
             }
         }
-}
+    }
