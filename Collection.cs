@@ -4,10 +4,47 @@ namespace HomeWork
 {
     class Program
     {
-        private class ListTask 
-            // задание 1
+        
+            static void Main(string[] args)
         {
-            static void Main() // если использую публичный метод TaskLoop() в этом задании все ломается, не поняла куда его надо написать
+            while (true)
+            {
+                Console.WriteLine("Введите название задания или напишите EXIT для выхода");
+                string value = Console.ReadLine();
+
+                if (value.Equals("EXIT"))
+                {
+                    break; // Выход из программы
+                }
+
+                switch (value())
+                {
+                    case "задание1":
+                        var listTask = new ListTask();
+                        listTask.TaskLoop();
+                        break;
+                    case "задание2":
+                        var studentTask = new StudentName();
+                        studentName.TaskLoop();
+                        break;
+                    case "задание3":
+                        var listElements = new ListElements();
+                        listElements.TaskLoop();
+                        break;
+                    default:
+                        Console.WriteLine("Нет такого задания");
+                        break;
+                }
+            }
+
+            Console.WriteLine("Выход.");
+        }
+    }
+    
+        
+        private class ListTask // задание 1
+        {
+            public void TaskLoop()
             {
                 List<string> list = new List<string>();
                 list.Add("1");
@@ -40,7 +77,14 @@ namespace HomeWork
                     Console.WriteLine(item);
                 }
             }
+         }
+   
+        
+        
+
             //Задание 2
+private class StudentName
+{
             public void TaskLoop()
             { 
               Dictionary <string, int> students = new Dictionary<string, int>();
@@ -76,7 +120,12 @@ namespace HomeWork
                     Console.WriteLine("Студента с таким именем не существует.");
                 }
             }
+  
+}
+    
             // задание 3
+private class ListElements
+ {
             public void TaskLoop()
             {
                 LinkedList<string> list = new LinkedList<string>();
@@ -99,10 +148,11 @@ namespace HomeWork
                     Console.WriteLine(currentNode.Value);
                     currentNode = currentNode.Previous;
                 }
-            }
-        } 
+             }
+   
     }
 }
+              
 
 
 
