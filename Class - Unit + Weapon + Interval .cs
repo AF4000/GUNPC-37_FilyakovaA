@@ -76,12 +76,16 @@ namespace Class
         {
             DamageRange = new Interval(minDamag, maxDamag);
         }
+        public Weapon (string name, int MaxDamage)
+    	{
+            Name = name;
+            DamageRange = new Interval(maxDamag);
+        }
         public double GetDamage()
 
         {
             return DamageRange.Get;
         }
-
 
     }
 
@@ -95,11 +99,11 @@ namespace Class
 
 using Class;
 
-    struct Interval
+    public struct Interval
 
     private double min;
     private double max;
-    private Random get = new Random();
+    private static Random get = new Random();
     public Interval(int minValue, int maxValue)
     {
     if (minValue < 0)
@@ -135,6 +139,13 @@ using Class;
     }
         public Interval(int maxValue) : this(0, maxValue)
         {
+        }
+       public double Get
+       {
+        get
+            {
+              return get.NextDouble() * (max - min) + min;
+            }
         }
 }
 
