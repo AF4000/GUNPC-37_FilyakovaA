@@ -3,37 +3,75 @@ using System.Text;
 
 internal class Program
 {
-    public static void Main()  //если сразу указываю метод ConcatenateStrings без метода Main, пишет ошибку что "нет метода Main подходящего для входа" , подскажите почему? 
-    { }
-    public static void ConcatenateStrings()
-        {
-            Console.WriteLine("Введите 2 строки");
-            var tecst1 = Console.ReadLine();
-            var tecst2 = Console.ReadLine();
-            Console.WriteLine($"{tecst1} {tecst2}");
-        }
+    public static void Main()
+{
+    Console.WriteLine("Введите 2 строки");
+    string tecst1 = Console.ReadLine();
+    string tecst2 = Console.ReadLine();
+    string result = ConcatenateStrings(tecst1, tecst2);
+    Console.WriteLine(tecst1 + tecst2);
+}
+public static string ConcatenateStrings(string tecst1, string tecst2)
+{
+return tecst1 + tecst2;
+}
 
-    public static void GreetUser(string[] args)
-    {
-        Console.WriteLine("Введите Имя и возраст");
-        var Name = Console.ReadLine();
-        var Ears = Console.ReadLine();
-        Console.WriteLine($"Hello, {Name}!\nYou are {Ears} years old.");
-    }
-    public static void MetodString(string[] args)
-    {
-        Console.WriteLine("Введите любую строку");
-        var tecst = Console.ReadLine();
-        Console.WriteLine($"Длина строки: {tecst.Length}");
-        Console.WriteLine(tecst.ToUpper());
-        Console.WriteLine(tecst.ToLower());
-    }
-    public static void MetodChars(string[] args)
-    {
-        Console.WriteLine("Введите любую строку");
-        var tecst = Console.ReadLine();
-        Console.WriteLine(tecst.Substring(0, 4));
-    }
+
+    
+ public static void Main()
+ {
+     Console.WriteLine("Введите Имя и возраст");
+     var Name = Console.ReadLine();
+     var _ears = Console.ReadLine();
+     int Ears;
+     if (!int.TryParse(_ears, out Ears))
+     {
+         Console.WriteLine("Некорректный возраст");
+         return;
+     }
+     string result = GreetUser(Name, Ears);
+     Console.WriteLine(result);
+
+ }
+ public static string GreetUser(string Name, int Ears)
+ {
+     return $"Hello, {Name}!\nYou are {Ears} years old.";
+ }
+
+
+
+    
+    public static void Main()
+{
+    Console.WriteLine("Введите любую строку");
+    var tecst = Console.ReadLine();
+    Console.WriteLine(MetodString(tecst));
+
+}
+public static string MetodString(string str)
+{
+    Console.WriteLine($"Длина строки: {str.Length}");
+    Console.WriteLine(str.ToUpper());
+    return str.ToLower();
+}
+
+
+    
+
+public static void Main()
+{
+    Console.WriteLine("Введите любую строку");
+    var tecst = Console.ReadLine();
+    Console.WriteLine(MetodChars(tecst));
+}
+ public static string MetodChars(string Tecst)
+{
+    return Tecst.Substring(0, 4);
+}
+
+
+    
+    
 
     static StringBuilder ArrayToSentence(string[] words)
     {
@@ -61,7 +99,7 @@ internal class Program
         }
         return input.Replace(wordToFind, wordToReplace);
     }
-    public static void Words()
+    public static void Main()
         {
             Console.WriteLine("Введите строку:");
             string line = Console.ReadLine();
